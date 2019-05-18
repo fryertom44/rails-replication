@@ -1,0 +1,36 @@
+default: &default
+  adapter:  postgresql
+  encoding: unicode
+  pool:     5
+  host:     127.0.0.1
+  username: techlunch
+  password: password1
+
+slave_default: &slave_default
+  <<: *default
+  migrations_paths: "db/slave_migrate"
+  replica: true
+
+development:
+  master:
+    <<: *default
+    database: techlunch_master_development
+  slave:
+    <<: *slave_default
+    database: techlunch_slave_development
+
+test:
+  master:
+    <<: *default
+    database: techlunch_master_test
+  slave:
+    <<: *slave_default
+    database: techlunch_slave_test
+
+production:
+  master:
+    <<: *default
+    database: techlunch_master_production
+  slave:
+    <<: *slave_default
+    database: techlunch_slave_production
